@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>DAILY_LOG</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ─── 로그인 게이트 ─── -->
+<div id="gate" class="gate">
+  <div class="gate-logo">// DAILY_LOG</div>
+  <div class="gate-sub">하루 기록 아카이브<br>로그인이 필요합니다</div>
+  <button class="btn bd" id="login-btn" style="padding:10px 24px;">[ GOOGLE 로그인 ]</button>
+</div>
+
+<!-- ─── 앱 본체 ─── -->
+<div id="app" style="display:none;">
+
+  <div class="titlebar">
+    <div class="titlebar-l" id="home-link">// DAILY_LOG</div>
+    <div class="titlebar-r" id="status">●</div>
+  </div>
+
+  <!-- INPUT 화면 -->
+  <div class="view" id="view-input">
+    <div class="body">
+      <div class="prompt">$ <span>log --new</span></div>
+      <div class="input-hint">// 하루 기록 텍스트를 붙여넣기 하세요</div>
+      <textarea id="raw-input" rows="10" placeholder="2026.04.22 (Wed)&#10;𝑾𝑬𝑨𝑻𝑯𝑬𝑹 ⛅ 𝑴𝑶𝑶𝑫 🩷&#10;W: ...&#10;M: ..."></textarea>
+      <div style="display:flex; gap:8px; margin-top:10px;">
+        <button class="btn bd" style="flex:1;" id="parse-btn">[ PARSE ]</button>
+        <button class="btn" id="clear-btn">CLEAR</button>
+      </div>
+      <div id="parse-preview"></div>
+    </div>
+  </div>
+
+  <!-- LIST 화면 -->
+  <div class="view" id="view-list">
+    <div class="body">
+      <div class="prompt">$ <span>log --list</span></div>
+      <div class="search-tabs">
+        <div class="search-tab active" data-mode="date">DATE</div>
+        <div class="search-tab" data-mode="place">PLACE</div>
+      </div>
+      <div class="search">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="날짜 (2026-04) 또는 장소명">
+      </div>
+      <div id="list-container"></div>
+      <div id="list-loading" class="loading" style="display:none;">LOADING...</div>
+    </div>
+  </div>
+
+  <!-- DETAIL 화면 -->
+  <div class="view" id="view-detail">
+    <div class="body" id="detail-body"></div>
+  </div>
+
+  <!-- MONTHLY 화면 -->
+  <div class="view" id="view-monthly">
+    <div class="body">
+      <div class="prompt">$ <span>stats --monthly</span></div>
+      <div class="tabs">
+        <div class="tab active" data-tab="routine">ROUTINE</div>
+        <div class="tab" data-tab="mood">MOOD</div>
+        <div class="tab" data-tab="expense">EXPENSE</div>
+      </div>
+      <div class="selectbar">
+        <select id="year-select"></select>
+        <select id="month-select"></select>
+      </div>
+      <div id="monthly-content"></div>
+    </div>
+  </div>
+
+  <!-- 하단 네비 -->
+  <div class="nav">
+    <div class="nav-item" data-view="input">INPUT</div>
+    <div class="nav-item active" data-view="list">LIST</div>
+    <div class="nav-item" data-view="monthly">MONTHLY</div>
+  </div>
+
+</div>
+
+<!-- 바텀시트 (편집용) -->
+<div class="sheet-backdrop" id="sheet-backdrop">
+  <div class="sheet" id="sheet">
+    <div class="sheet-title">
+      <span id="sheet-title-text">EDIT</span>
+      <span class="btn sm" id="sheet-close">✕ CLOSE</span>
+    </div>
+    <div id="sheet-content"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+# 글로벌 gitignore 오버라이드 (*.html, *.md 등이 전역에서 제외됨)
+!*.html
+!*.md
+!*.png
+!*.txt
+!*.css
+!*.js
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+database-debug.log
+
+# Functions
+functions/node_modules/
+
+# Environment / secrets
+.env
+.env.*
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

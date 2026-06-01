@@ -1,0 +1,23 @@
+rules_version = '2';
+
+// ============================================================
+// Firestore 보안 규칙
+// ============================================================
+// 개인용 앱이므로, 지정된 단일 사용자(본인)만 접근 가능하도록
+// 설정합니다. 아래 OWNER_UID를 본인 Google 계정의 UID로 교체하세요.
+// (UID는 Firebase 콘솔 → Authentication → 사용자 에서 확인)
+// ============================================================
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 본인 UID로 교체
+    function isOwner() {
+      return request.auth != null
+        && request.auth.uid == "1lNqeo3NEyeIfLyij6CdR5X3tBm2";
+    }
+
+    match /logs/{dateId} {
+      allow read, write: if isOwner();
+    }
+  }
+}

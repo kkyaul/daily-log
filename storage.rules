@@ -1,0 +1,25 @@
+rules_version = '2';
+
+// ============================================================
+// Storage 보안 규칙
+// ============================================================
+// 본인 UID로 REPLACE_WITH_YOUR_UID 교체하세요.
+// 사진 업로드는 10MB 이하 이미지로 제한.
+// ============================================================
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isOwner() {
+      return request.auth != null
+        && request.auth.uid == "1lNqeo3NEyeIfLyij6CdR5X3tBm2";
+    }
+
+    match /photos/{dateId}/{fileName} {
+      allow read: if isOwner();
+      allow write: if isOwner()
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if isOwner();
+    }
+  }
+}
