@@ -6,19 +6,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@300;400;500;700&display=swap');
 
 :root {
-  --b:    #7dd3fc;
-  --bd:   #38bdf8;
-  --bdd:  #0369a1;
-  --bddd: #082f49;
-  --bg:   #020b14;
-  --bg2:  #030f1e;
-  --border: #0c2233;
-  --acc:  #f0abfc;
-  --acc2: #c084fc;
-  --grn:  #86efac;
-  --red:  #fca5a5;
-  --ylw:  #fde68a;
-  --scan: rgba(125,211,252,.012);
+  --b:    #e0f2fe;   /* sky-100 · 본문 주요 텍스트 */
+  --bd:   #7dd3fc;   /* sky-300 · 강조·활성 */
+  --bdd:  #38bdf8;   /* sky-400 · 보조 텍스트 */
+  --bddd: #0ea5e9;   /* sky-500 · 흐린 텍스트 */
+  --bg:   #020b14;   /* 배경 */
+  --bg2:  #041525;   /* 시트·서브 배경 */
+  --border: #0f2d42; /* 구분선 */
+  --acc:  #f0abfc;   /* 퍼플 강조 */
+  --acc2: #e879f9;   /* 퍼플 강조2 */
+  --grn:  #86efac;   /* 초록 */
+  --red:  #fca5a5;   /* 빨강 */
+  --ylw:  #fde68a;   /* 노랑 */
+  --scan: rgba(125,211,252,.010);
   --maxw: 480px;
 }
 
@@ -99,7 +99,7 @@ body::before {
   display: inline-block; border: 1px solid var(--bdd); color: var(--bdd);
   font-size: 11px; padding: 5px 10px; border-radius: 2px; letter-spacing: 1px;
   font-family: 'Share Tech Mono', monospace; cursor: pointer; background: transparent;
-  transition: all .15s;
+  transition: all .15s; user-select: none;
 }
 .btn:hover { background: rgba(56,189,248,.1); color: var(--b); }
 .btn.acc { border-color: var(--acc2); color: var(--acc2); }

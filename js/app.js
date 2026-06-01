@@ -429,7 +429,7 @@ function renderDetail(log) {
     <div class="section">── ROUTINE <span class="badge grn">${routineDone}/${(d.routine || []).length}</span></div>
     ${routineHtml}
 
-    <div class="section">── TO-DO</div>
+    <div class="section">── TO-DO <button class="btn sm" data-edit="todos">EDIT</button></div>
     ${todoHtml}
 
     <div class="section">── MEALS <button class="btn sm" data-edit="meals">EDIT</button></div>
@@ -557,6 +557,7 @@ async function saveAndRefresh(log, fields) {
 
 function openEditSheet(kind, log) {
   if (kind === "overview") return editOverview(log);
+  if (kind === "todos") return editTodos(log);
   if (kind === "sleep") return editSleep(log);
   if (kind === "events") return editEvents(log);
   if (kind === "meals") return editMeals(log);
@@ -746,6 +747,40 @@ function editGratitude(log) {
   $("#e-save").onclick = async () => {
     await saveAndRefresh(log, { gratitude: $("#e-grat").value.split("\n").map((s) => s.trim()).filter(Boolean) });
   };
+}
+
+function editTodos(log) {
+  log._edit = JSON.parse(JSON.stringify(log.todos || []));
+  const render = () => log._edit.map((t, i) => `
+    <div class="parse-block">
+      <div style="display:flex; gap:6px; align-items:center;">
+        <label style="margin:0; display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" data-done="${i}" ${t.done ? "checked" : ""} style="width:auto;">
+          완료
+        </label>
+        <button class="btn sm danger" data-del="${i}">✕</button>
+      </div>
+      <input data-item="${i}" value="${esc(t.item || "")}" placeholder="할 일 내용" style="margin-top:6px;">
+    </div>`).join("");
+  const show = () => {
+    openSheet("EDIT TO-DO", `
+      <div id="todo-list">${render()}</div>
+      <button class="btn full" id="td-add" style="margin-bottom:10px;">+ 항목 추가</button>
+      <button class="btn bd full" id="e-save">[ SAVE ]</button>
+    `);
+    $("#td-add").onclick = () => { sync(); log._edit.push({ item: "", done: false }); show(); };
+    $("#sheet-content").querySelectorAll("[data-del]").forEach((b) => b.onclick = () => { sync(); log._edit.splice(Number(b.dataset.del), 1); show(); });
+    $("#e-save").onclick = async () => { sync(); const todos = log._edit.filter((t) => t.item.trim()); delete log._edit; await saveAndRefresh(log, { todos }); };
+  };
+  const sync = () => {
+    $("#sheet-content").querySelectorAll("[data-item]").forEach((el) => {
+      const i = Number(el.dataset.item);
+      log._edit[i].item = el.value;
+      const cb = $(`#sheet-content [data-done="${i}"]`);
+      if (cb) log._edit[i].done = cb.checked;
+    });
+  };
+  show();
 }
 
 function editExpenses(log) {
