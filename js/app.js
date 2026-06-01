@@ -415,7 +415,7 @@ function renderDetail(log) {
     : `<div class="empty-note">// 아직 등록된 일기가 없습니다.</div>`;
 
   $("#detail-body").innerHTML = `
-    <div class="prompt">$ <span>log --show ${d.date}</span>
+    <div class="prompt">$ <span>log --show ${d.date}</span>  <span class="cursor"></span>
       <span class="btn sm" id="back-btn" style="float:right;">◀ BACK</span></div>
 
     <div class="section">── OVERVIEW <button class="btn sm" data-edit="overview">EDIT</button></div>

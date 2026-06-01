@@ -12,6 +12,7 @@
 <!-- ─── 로그인 게이트 ─── -->
 <div id="gate" class="gate">
   <div class="gate-logo">// DAILY_LOG</div>
+  <div class="prompt">$ <span>auth --provider=google</span> <span class="cursor"></span></div>
   <div class="gate-sub">하루 기록 아카이브<br>로그인이 필요합니다</div>
   <button class="btn bd" id="login-btn" style="padding:10px 24px;">[ GOOGLE 로그인 ]</button>
 </div>
@@ -27,7 +28,7 @@
   <!-- INPUT 화면 -->
   <div class="view" id="view-input">
     <div class="body">
-      <div class="prompt">$ <span>log --new</span></div>
+      <div class="prompt">$ <span>log --new</span> <span class="cursor"></span></div>
       <div class="input-hint">// 하루 기록 텍스트를 붙여넣기 하세요</div>
       <textarea id="raw-input" rows="10" placeholder="2026.04.22 (Wed)&#10;𝑾𝑬𝑨𝑻𝑯𝑬𝑹 ⛅ 𝑴𝑶𝑶𝑫 🩷&#10;W: ...&#10;M: ..."></textarea>
       <div style="display:flex; gap:8px; margin-top:10px;">
@@ -41,7 +42,7 @@
   <!-- LIST 화면 -->
   <div class="view" id="view-list">
     <div class="body">
-      <div class="prompt">$ <span>log --list</span></div>
+      <div class="prompt">$ <span>log --list</span> <span class="cursor"></span></div>
       <div class="search-tabs">
         <div class="search-tab active" data-mode="date">DATE</div>
         <div class="search-tab" data-mode="place">PLACE</div>
@@ -63,7 +64,7 @@
   <!-- MONTHLY 화면 -->
   <div class="view" id="view-monthly">
     <div class="body">
-      <div class="prompt">$ <span>stats --monthly</span></div>
+      <div class="prompt">$ <span>stats --monthly</span> <span class="cursor"></span></div>
       <div class="tabs">
         <div class="tab active" data-tab="routine">ROUTINE</div>
         <div class="tab" data-tab="mood">MOOD</div>
