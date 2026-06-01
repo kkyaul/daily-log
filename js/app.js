@@ -206,6 +206,10 @@ function setupList() {
       state.searchMode = t.dataset.mode;
       $("#search-input").placeholder = state.searchMode === "date"
         ? "날짜 (2026-04 또는 2026-04-22)" : "장소명 또는 키워드";
+      // 탭 전환 시 검색어 초기화 + 리스트 갱신
+      $("#search-input").value = "";
+      resetList();
+      loadListFirstPage();
     });
   });
 
@@ -235,20 +239,27 @@ function resetList() {
   $("#list-container").innerHTML = "";
 }
 
+function dots(level, filled = "●", empty = "○") {
+  const v = Number(level) || 0;
+  return filled.repeat(v) + empty.repeat(5 - v);
+}
+
 function renderListItems(items, append = true) {
   const html = items.map((log) => {
-    const places = (log.places || []).map((p) => p.name).join(", ");
     const meta = [
       log.dayOfWeek,
       log.weather?.emoji || "",
-      log.mood?.level ? `M${log.mood.level}` : "",
-      log.energyLevel ? `E${log.energyLevel}` : "",
     ].filter(Boolean).join(" · ");
+    const moodDots = log.mood?.level
+      ? `<span class="list-dots mood-dots" title="MOOD">${dots(log.mood.level)}</span>` : "";
+    const energyDots = log.energyLevel
+      ? `<span class="list-dots energy-dots" title="ENERGY">${dots(log.energyLevel)}</span>` : "";
     return `
       <div class="list-item" data-date="${log.date}">
-        <div>
+        <div class="list-left">
           <div class="list-date">${log.date}</div>
           <div class="list-meta">${esc(meta)}</div>
+          <div class="list-indicators">${moodDots}${energyDots}</div>
         </div>
         <div class="list-mood">${log.mood?.emoji || "·"}</div>
         <div class="list-arrow">▶</div>
@@ -585,11 +596,30 @@ function bindStarPickers(target) {
   });
 }
 
+const MOOD_EMOJIS = ["🩷", "💛", "🩶", "💙", "🖤"];
+
+function moodEmojiPicker(current) {
+  return `<div class="mood-picker" id="mood-picker">${
+    MOOD_EMOJIS.map((e) =>
+      `<span class="mood-opt ${e === current ? "selected" : ""}" data-emoji="${e}">${e}</span>`
+    ).join("")
+  }</div>`;
+}
+
+function bindMoodPicker(target) {
+  target.querySelectorAll(".mood-opt").forEach((el) => {
+    el.onclick = () => {
+      target.querySelectorAll(".mood-opt").forEach((x) => x.classList.remove("selected"));
+      el.classList.add("selected");
+    };
+  });
+}
+
 function editOverview(log) {
   openSheet("EDIT OVERVIEW", `
     <div class="field"><label>WEATHER EMOJI</label><input id="e-wemoji" value="${esc(log.weather?.emoji || "")}"></div>
     <div class="field"><label>WEATHER COMMENT</label><input id="e-wcomment" value="${esc(log.weather?.comment || "")}"></div>
-    <div class="field"><label>MOOD EMOJI</label><input id="e-memoji" value="${esc(log.mood?.emoji || "")}"></div>
+    <div class="field"><label>MOOD EMOJI</label>${moodEmojiPicker(log.mood?.emoji || "")}</div>
     <div class="field"><label>MOOD COMMENT</label><input id="e-mcomment" value="${esc(log.mood?.comment || "")}"></div>
     <div class="field"><label>MOOD LEVEL</label>${starPicker("mood", log.mood?.level)}</div>
     <div class="field"><label>WAKE CONDITION</label>${starPicker("wake", log.wakeCondition)}</div>
@@ -599,14 +629,16 @@ function editOverview(log) {
     <button class="btn bd full" id="e-save">[ SAVE ]</button>
   `);
   bindStarPickers($("#sheet-content"));
+  bindMoodPicker($("#sheet-content"));
   $("#e-save").onclick = async () => {
     const getStarVal = (id) => {
       const el = $(`#sheet-content [data-star="${id}"]`);
       return el && el.dataset.value ? Number(el.dataset.value) : (id === "mood" ? log.mood?.level : id === "wake" ? log.wakeCondition : log.energyLevel) || null;
     };
+    const selectedMood = $("#sheet-content .mood-opt.selected")?.dataset.emoji || log.mood?.emoji || "";
     const fields = {
       weather: { emoji: $("#e-wemoji").value.trim(), comment: $("#e-wcomment").value.trim() },
-      mood: { emoji: $("#e-memoji").value.trim(), comment: $("#e-mcomment").value.trim(), level: getStarVal("mood") },
+      mood: { emoji: selectedMood, comment: $("#e-mcomment").value.trim(), level: getStarVal("mood") },
       wakeCondition: getStarVal("wake"),
       energyLevel: getStarVal("energy"),
       music: $("#e-music").value.split("\n").map((s) => s.trim()).filter(Boolean),
@@ -785,7 +817,7 @@ function editTodos(log) {
 
 function editExpenses(log) {
   log._edit = JSON.parse(JSON.stringify(log.expenses || []));
-  const CATS = ["식비","교통","쇼핑","의료","문화","기타"];
+  const CATS = ["외식","식재료","카페","교통","의류","생활용품","전자기기","도서","교육","의료","운동","문화","여행","숙박","기타"];
   const render = () => log._edit.map((x, i) => `
     <div class="parse-block">
       <div style="display:flex; gap:6px;">

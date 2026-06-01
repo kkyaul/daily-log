@@ -60,7 +60,7 @@ body::before {
   position: sticky; top: 0; z-index: 50;
   backdrop-filter: blur(4px);
 }
-.titlebar-l { font-size: 12px; color: var(--bd); letter-spacing: 2px; cursor: pointer; }
+.titlebar-l { font-size: 12px; color: var(--bd); letter-spacing: 2px; cursor: pointer; user-select: none; }
 .titlebar-r { font-size: 10px; color: var(--bddd); }
 .titlebar-r span { color: var(--bd); }
 
@@ -144,7 +144,7 @@ select {
 .bar-row .num { color: var(--bdd); margin-left: auto; font-size: 11px; }
 
 /* 체크리스트 */
-.entry { display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 2.2; cursor: pointer; }
+.entry { display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 2.2; cursor: pointer; user-select: none; }
 .entry .chk { color: var(--grn); }
 .entry .unchk { color: var(--bddd); }
 .entry .label { color: var(--b); }
@@ -156,28 +156,35 @@ select {
   position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 100%; max-width: var(--maxw); background: var(--bg); z-index: 60;
 }
-.nav-item { flex: 1; text-align: center; font-size: 11px; padding: 16px 0; color: var(--bddd); letter-spacing: 1px; cursor: pointer; }
+.nav-item { flex: 1; text-align: center; font-size: 11px; padding: 16px 0; color: var(--bddd); letter-spacing: 1px; cursor: pointer; user-select: none; }
 .nav-item.active { color: var(--bd); border-top: 2px solid var(--bd); margin-top: -1px; }
 
 /* 리스트 아이템 */
-.list-item { border-bottom: 1px solid var(--border); padding: 12px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.list-item { border-bottom: 1px solid var(--border); padding: 12px 0; display: flex; align-items: center; gap: 12px; cursor: pointer; user-select: none; }
 .list-item:hover { background: rgba(56,189,248,.04); }
 .list-date { font-size: 15px; color: var(--b); }
 .list-meta { font-size: 10px; color: var(--bddd); margin-top: 3px; }
 .list-mood { font-size: 18px; margin-left: auto; }
 .list-arrow { color: var(--bddd); font-size: 12px; }
 
+/* 리스트 레벨 도트 */
+.list-left { flex: 1; min-width: 0; }
+.list-indicators { display: flex; gap: 8px; margin-top: 3px; }
+.list-dots { font-size: 9px; letter-spacing: 1px; }
+.mood-dots { color: var(--acc); }
+.energy-dots { color: var(--grn); }
+
 /* 검색바 */
 .search { border: 1px solid var(--border); border-radius: 2px; padding: 4px 10px; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; background: rgba(3,105,161,.05); }
 .search-icon { font-size: 12px; color: var(--bdd); }
 .search input { border: none; background: transparent; padding: 6px 0; }
 .search-tabs { display: flex; gap: 6px; margin-bottom: 12px; }
-.search-tab { font-size: 10px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 2px; color: var(--bddd); cursor: pointer; letter-spacing: 1px; }
+.search-tab { font-size: 10px; padding: 4px 10px; border: 1px solid var(--border); border-radius: 2px; color: var(--bddd); cursor: pointer; letter-spacing: 1px; user-select: none; }
 .search-tab.active { color: var(--bd); border-color: var(--bd); background: rgba(56,189,248,.08); }
 
 /* MONTHLY 탭 */
 .tabs { display: flex; gap: 5px; margin-bottom: 10px; }
-.tab { flex: 1; text-align: center; font-size: 10px; padding: 7px 0; color: var(--bddd); border: 1px solid var(--border); border-radius: 2px; letter-spacing: 1px; cursor: pointer; }
+.tab { flex: 1; text-align: center; font-size: 10px; padding: 7px 0; color: var(--bddd); border: 1px solid var(--border); border-radius: 2px; letter-spacing: 1px; cursor: pointer; user-select: none; }
 .tab.active { color: var(--bd); border-color: var(--bd); background: rgba(56,189,248,.08); }
 .selectbar { display: flex; gap: 8px; margin-bottom: 14px; }
 .selectbar select { flex: 1; }
@@ -188,7 +195,7 @@ select {
 .cal-cell { aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 9px; border-radius: 2px; border: 1px solid transparent; cursor: default; }
 .cal-cell .num { color: var(--bddd); font-size: 9px; }
 .cal-cell .emoji { font-size: 13px; line-height: 1.2; }
-.cal-cell.has { border-color: var(--border); background: rgba(3,105,161,.06); cursor: pointer; }
+.cal-cell.has { border-color: var(--border); background: rgba(3,105,161,.06); cursor: pointer; user-select: none; }
 .cal-cell.has:hover { border-color: var(--bd); }
 .cal-cell.today { border-color: var(--bd); }
 .cal-cell.empty { opacity: 0; }
@@ -248,8 +255,14 @@ select {
 .gate-logo { font-size: 16px; color: var(--bd); letter-spacing: 4px; text-align: center; }
 .gate-sub { font-size: 11px; color: var(--bddd); letter-spacing: 2px; text-align: center; line-height: 1.8; }
 
+/* 무드 이모지 피커 */
+.mood-picker { display: flex; gap: 10px; padding: 6px 0; }
+.mood-opt { font-size: 28px; cursor: pointer; opacity: .35; transition: opacity .15s, transform .15s; user-select: none; }
+.mood-opt:hover { opacity: .7; }
+.mood-opt.selected { opacity: 1; transform: scale(1.2); }
+
 /* 스타 레이팅 */
-.stars { display: inline-flex; gap: 2px; cursor: pointer; }
+.stars { display: inline-flex; gap: 2px; cursor: pointer; user-select: none; }
 .star { font-size: 15px; color: var(--bddd); }
 .star.on { color: var(--ylw); }
 

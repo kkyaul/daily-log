@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#020b14"/>
+  <!-- 달력 외곽 -->
+  <rect x="5" y="7" width="22" height="19" rx="2" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
+  <!-- 달력 상단 바 -->
+  <rect x="5" y="7" width="22" height="6" rx="2" fill="#0ea5e9" opacity="0.25"/>
+  <line x1="5" y1="13" x2="27" y2="13" stroke="#38bdf8" stroke-width="1.5"/>
+  <!-- 날짜 도트 3x2 -->
+  <rect x="9"  y="16.5" width="2.5" height="2.5" rx="0.5" fill="#7dd3fc"/>
+  <rect x="14.5" y="16.5" width="2.5" height="2.5" rx="0.5" fill="#7dd3fc"/>
+  <rect x="20" y="16.5" width="2.5" height="2.5" rx="0.5" fill="#7dd3fc"/>
+  <rect x="9"  y="21" width="2.5" height="2.5" rx="0.5" fill="#0ea5e9" opacity="0.5"/>
+  <rect x="14.5" y="21" width="2.5" height="2.5" rx="0.5" fill="#e879f9"/>
+  <rect x="20" y="21" width="2.5" height="2.5" rx="0.5" fill="#0ea5e9" opacity="0.5"/>
+</svg>

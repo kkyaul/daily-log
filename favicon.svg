@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#020b14"/>
+  <rect x="2" y="2" width="28" height="28" rx="5" fill="none" stroke="#0ea5e9" stroke-width="1.2" opacity="0.4"/>
+  <!-- 프롬프트 꺾쇠 -->
+  <polyline points="7,12 12,16 7,20" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- 커서 바 -->
+  <rect x="14" y="19" width="11" height="2.2" rx="1" fill="#7dd3fc"/>
+</svg>
